@@ -1,0 +1,15 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:$kotlinTest"
+}
+
+test {
+    useJUnitPlatform()
+}

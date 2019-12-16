@@ -1,0 +1,10 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+apply plugin: 'kotlin'
+
+dependencies {
+    compile(project(":validata-core"))
+    compile "org.jetbrains.kotlin:kotlin-stdlib"
+}

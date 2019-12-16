@@ -39,8 +39,15 @@ data class MatcherResult<T, E>(
          * when matcher is used in the negative sense
          */
         val negativeExtractor: (T) -> E) {
-    constructor(passed: Boolean, failureMessage: E, negatedFailureMessage: E) : this(passed, { failureMessage }, { negatedFailureMessage })
-    constructor(passed: Boolean, failureMessage: E) : this(passed, { failureMessage }, { throw MatherError() })
+    /**
+     * Constructor for create MatherResult by values.
+     */
+    constructor(passed: Boolean, failure: E, negatedFailure: E) : this(passed, { failure }, { negatedFailure })
+
+    /**
+     * Constructor for create MatherResult without negated.
+     */
+    constructor(passed: Boolean, failure: E) : this(passed, { failure }, { throw MatherError() })
 }
 
 class MatherError : RuntimeException("Matcher shouldn't used as negated!")

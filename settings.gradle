@@ -1,1 +1,3 @@
 rootProject.name = "validata"
+include 'validata-core',
+        'validata-samples'
