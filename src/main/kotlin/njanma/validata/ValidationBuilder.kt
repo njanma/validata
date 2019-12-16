@@ -91,7 +91,7 @@ class DefaultValidationBuilder<T, E>(override val self: T,
     }
 
     override fun <R> KProperty1<T, R>.shouldNot(arg: Matcher<R, E>) {
-        validators.add(PropertyValidator(this, Validator(MatcherValidator(arg.invert())) {}))
+        validators.add(PropertyValidator(this, Validator(MatcherValidator(!arg)) {}))
     }
 
     override fun <R> KFunction1<T, R>.should(arg: Matcher<R, E>) {
@@ -99,7 +99,7 @@ class DefaultValidationBuilder<T, E>(override val self: T,
     }
 
     override fun <R> KFunction1<T, R>.shouldNot(arg: Matcher<R, E>) {
-        validators.add(FunctionValidator(this, Validator(MatcherValidator(arg.invert())) {}))
+        validators.add(FunctionValidator(this, Validator(MatcherValidator(!arg)) {}))
     }
 
     override fun ValidationBuilder<T, E>.checkedBy(validator: Validation<T, E>) {

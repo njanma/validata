@@ -2,35 +2,45 @@ package njanma.validata
 
 interface Matcher<T, E> {
 
-    fun test(value: T): MatcherResult<E>
+    fun test(value: T): MatcherResult<T, E>
 
-    fun invert(): Matcher<T, E> = object : Matcher<T, E> {
-        override fun test(value: T): MatcherResult<E> {
+    operator fun not(): Matcher<T, E> = object : Matcher<T, E> {
+        override fun test(value: T): MatcherResult<T, E> {
             val result = this@Matcher.test(value)
-            return MatcherResult(!result.passed, result.negatedFailureMessage, result.failureMessage)
+            return MatcherResult(!result.passed, result.negativeExtractor, result.failureExtractor)
+        }
+    }
+
+    fun <R> transform(failure: R, negative: R): Matcher<T, R> = object : Matcher<T, R> {
+        override fun test(value: T): MatcherResult<T, R> {
+            val result = this@Matcher.test(value)
+            return MatcherResult(result.passed, { failure }, { negative })
         }
     }
 
     companion object {
-        operator fun <T, E> invoke(test: (T) -> MatcherResult<E>): Matcher<T, E> =
-                object : Matcher<T, E> {
-                    override fun test(value: T): MatcherResult<E> =
-                            test(value)
-                }
+        operator fun <T, E> invoke(test: (T) -> MatcherResult<T, E>): Matcher<T, E> = object : Matcher<T, E> {
+            override fun test(value: T): MatcherResult<T, E> = test(value)
+        }
     }
 }
 
-data class MatcherResult<E>(
+data class MatcherResult<T, E>(
         /**
          * Should be true if the result was valid
          */
         val passed: Boolean,
         /**
-         * A message which describes why the evaluation failed
+         * An error which describes why the evaluation failed
          */
-        val failureMessage: E,
+        val failureExtractor: (T) -> E,
         /**
-         * A message which describes why the evaluation failed
+         * An error which describes why the evaluation failed
          * when matcher is used in the negative sense
          */
-        val negatedFailureMessage: E)
+        val negativeExtractor: (T) -> E) {
+    constructor(passed: Boolean, failureMessage: E, negatedFailureMessage: E) : this(passed, { failureMessage }, { negatedFailureMessage })
+    constructor(passed: Boolean, failureMessage: E) : this(passed, { failureMessage }, { throw MatherError() })
+}
+
+class MatherError : RuntimeException("Matcher shouldn't used as negated!")

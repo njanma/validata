@@ -98,7 +98,7 @@ internal class HasLengthValidator<T, E, N : Number>(private val arg: N,
 internal class MatcherValidator<T, E>(private val matcher: Matcher<T, E>) : Validator<T, E> {
     override fun validate(value: T): ValidationResult<E> {
         val matcherResult = matcher.test(value)
-        return ValidationResult(!matcherResult.passed, matcherResult.failureMessage)
+        return ValidationResult(!matcherResult.passed, matcherResult.failureExtractor(value))
     }
 }
 
