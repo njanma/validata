@@ -39,4 +39,6 @@ fun <E> maxLength(size: Int, failure: E, negative: E) = maxLength(size).transfor
 
 fun maxLength(size: Int) = !minLength(size)
 
-fun <T> beEmpty() = Matcher<Optional<T>, String> { MatcherResult(it.isPresent, "Optional isn't empty!", "Optional is empty!") }
+fun <T> beEmpty() = Matcher<Optional<T>, String> {
+    MatcherResult(it.isPresent, "Optional isn't empty!", "Optional is empty!")
+}

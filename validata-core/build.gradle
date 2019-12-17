@@ -1,8 +1,11 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm'
+    id 'com.jfrog.bintray'
+    id 'maven-publish'
 }
 
 apply plugin: 'kotlin'
+apply plugin: 'com.jfrog.bintray'
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
@@ -12,4 +15,34 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'io.validata:validata-core'
+        userOrg = 'njanma'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/njanma/validata'
+        version {
+            name = project.version
+            desc = "Validata Version ${project.version}"
+            released = new Date()
+            vcsTag = project.version
+        }
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'io.validata'
+            artifactId 'validata-core'
+            version project.version
+            from components.java
+        }
+    }
 }

@@ -14,6 +14,7 @@ sealed class ValidationResult<T>(val errors: List<T>) {
 
         fun <E> invalid(err: E): ValidationResult<E> = Invalid(err)
 
+        @Suppress("UNCHECKED_CAST")
         fun <E> valid(): ValidationResult<E> = Valid as ValidationResult<E>
 
         operator fun <E> invoke(invalidCondition: Boolean, errorDefinition: E): ValidationResult<E> =
