@@ -49,7 +49,7 @@ enum class Device {
 
 data class RegistrationData(val issued: Instant, val device: Device, val deviceUUID: UUID)                       
 ```
-And service for working with him:
+and service for working with him:
 
 ```kotlin
 class Service {
@@ -101,15 +101,7 @@ val userProfileValidation = Validator<UserProfile, String> {
     }
 }
 ```
-This won't be compile:
-```kotlin
-val userProfileValidation = Validator<UserProfile, String> {
-    UserProfile::age {
-        moreThan(18, "age should be more than 18")
-    }
-}
-```
-because the field age is can be nullable.
+Without `ifPresent` it won't be compile, because the field age is can be nullable.
 
 #### Checked by
 ```kotlin
