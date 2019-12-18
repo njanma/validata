@@ -67,7 +67,7 @@ class Service {
             RegistrationData(LocalDateTime.now().minusDays(1).toInstant(ZoneOffset.UTC), Device.PC, UUID.randomUUID())
 }
 ```
-Using Validata you can quickly write some validation rules, for example:
+Using `Validata` you can quickly write some validation rules, for example:
 ```kotlin
 val service = Service()
 
@@ -85,13 +85,13 @@ val profileEmailValidator = Validator<UserProfile, String> {
         }
 }
 ```
-and apply your data
+and apply it to your data
 ```kotlin
 val userProfile = UserProfile(1, "gena", 2, "incorrectEmail.com", RegistrationData(Instant.EPOCH, Device.TV, UUID.randomUUID()))
 val validated: ValidationResult<String> = userProfileValidation(userProfile)
 ```
-ValidationResult can be one of these types: `Valid` or `Invalid<E>`. 
-Invalid result has a sequence of errors that were defined earlier.
+`ValidationResult` can be one of these types: `Valid` or `Invalid<E>`. 
+`Invalid<E>` result has a sequence of errors that were defined earlier.
 
 #### If present
 ```kotlin
@@ -101,7 +101,7 @@ val userProfileValidation = Validator<UserProfile, String> {
     }
 }
 ```
-Without `ifPresent` it won't be compile, because the field age is can be nullable.
+Without `ifPresent` it won't be compile, because the field age can be nullable.
 
 #### Checked by
 ```kotlin
