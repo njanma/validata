@@ -31,14 +31,13 @@ compile "io.validata:validata-core:0.1.0"
 ```
 
 Examples
-========
+--------
 This section contains a few examples.
 
 Suppose you have a complex data class:
 
 ```kotlin
-data class UserProfile(
-                       val id: Long,
+data class UserProfile(val id: Long,
                        val name: String,
                        val age: Int?,
                        val email: String,
@@ -91,7 +90,7 @@ and apply your data
 val userProfile = UserProfile(1, "gena", 2, "incorrectEmail.com", RegistrationData(Instant.EPOCH, Device.TV, UUID.randomUUID()))
 val validated: ValidationResult<String> = userProfileValidation(userProfile)
 ```
-ValidationResult can be one of these types: Valid or Invalid. 
+ValidationResult can be one of these types: `Valid` or `Invalid<E>`. 
 Invalid result has a sequence of errors that were defined earlier.
 
 #### If present
