@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/njanma/maven/io.validata%3Avalidata-core/images/download.svg) ](https://bintray.com/njanma/maven/io.validata%3Avalidata-core/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/njanma/validata/validata-core/images/download.svg) ](https://bintray.com/njanma/validata/validata-core/_latestVersion)
 
 Validata
 ========
