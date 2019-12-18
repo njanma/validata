@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/njanma/maven/io.validata%3Avalidata-core/images/download.svg) ](https://bintray.com/njanma/maven/io.validata%3Avalidata-core/_latestVersion)
+
 Validata
 ========
 
@@ -12,16 +14,33 @@ Key points
 Quickstart
 ----------
 
-### Add dependency
+### Intall
 
 #### Gradle
-
+Add the `Validata` bintray repository to your build.gradle
+```groovy
+repositories {
+    maven {
+        url "https://dl.bintray.com/njanma/validata"
+    }
+}
+```
+Add dependency
 ```groovy
 compile "io.validata:validata-core:0.1.0"
 ```
 
 #### Maven
+Add the `Validata` bintray repository to your Maven settings
 
+```xml
+<repository>
+    <id>bintray-njanma-validata</id>
+    <name>bintray</name>
+    <url>https://dl.bintray.com/njanma/validata</url>
+</repository>
+```
+Add dependency
 ```xml
 <dependency>
     <groupId>io.validata</groupId>

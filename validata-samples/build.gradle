@@ -2,9 +2,15 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
 }
 
+repositories {
+    maven {
+        url "https://dl.bintray.com/njanma/validata"
+    }
+}
+
 apply plugin: 'kotlin'
 
 dependencies {
-    compile(project(":validata-core"))
+    compile 'io.validata:validata-core:0.1.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib"
 }

@@ -21,9 +21,11 @@ bintray {
     user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
     configurations = ['archives']
+    publish = true
+    publications = ['maven']
     pkg {
-        repo = 'maven'
-        name = 'io.validata:validata-core'
+        repo = 'validata'
+        name = 'validata-core'
         userOrg = 'njanma'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/njanma/validata'
