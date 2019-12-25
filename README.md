@@ -154,3 +154,57 @@ val userProfileValidation = Validator<UserProfile, String> {
     }
 }
 ``` 
+
+Complex example
+---------------
+
+```kotlin
+val haveRealRegistrationDate = Matcher<RegistrationData, String> {
+    MatcherResult(it.issued.isBefore(Instant.now()), "issued date should be in past!", "issued date should be in future")
+}
+val userRegistrationValidator = Validator<RegistrationData, String> {
+    RegistrationData::device {
+        service::checkDevice.shouldBe(false, { "should be false but was returned: $it" })
+    }
+}
+val userCheckMsg = "user check invalid"
+val profileEmailValidator = Validator<UserProfile, String> {
+    UserProfile::email{
+        notBlank("email should be not blank")
+        minLength(99, "email should has length more than 999", "email should has length less than 999")
+        maxLength(200)
+    }
+    UserProfile::email should hasLength(1).transform("email should has length 1", "email shouldn't has length 1")
+    UserProfile::age.shouldNotBe(3, { userCheckMsg }) {
+        println("user check invalid")
+
+    }
+    UserProfile::email.checkedIf(true) {
+        minLength(999, "error on checkedIf", "")
+    }
+}
+
+val userProfileValidation = Validator<UserProfile, String> {
+    UserProfile::email{
+        service::findRegistrationData checkedBy userRegistrationValidator
+        service::findRegistrationData shouldNot haveRealRegistrationDate
+        service::findByEmail ifPresent {
+            checkedBy(profileEmailValidator)
+        }
+    }
+
+    UserProfile::age ifPresent {
+        moreThan(18, "age should be more than 18")
+        service::checkAge.shouldBe(true, { "age should be > 18" })
+    }
+    UserProfile::registration should haveRealRegistrationDate
+    UserProfile::registration checkedBy Validator {
+        RegistrationData::deviceUUID {
+            service::checkUUID.shouldBe(false, "name not allowed")
+        }
+    }
+}
+
+val userProfile = UserProfile(1, "gena", 2, "test@mail.com", RegistrationData(Instant.EPOCH, Device.TV, UUID.randomUUID()))
+val validated: ValidationResult<String> = userProfileValidation(userProfile)
+```
